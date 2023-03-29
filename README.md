@@ -1,4 +1,4 @@
-# Detecting-illegal-mining-with-sentinel-3-images
+# Detecting-illegal-mining-with-sentinel-2-images
 Disseration Object Dectection
 
 This is my disseration about detecting illegal mining from certian area.
