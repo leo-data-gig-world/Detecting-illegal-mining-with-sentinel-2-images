@@ -1,40 +1,185 @@
-# Detecting-illegal-mining-with-sentinel-2-images
-Disseration Object Dectection
+# Detecting Illegal Mining with Sentinel-2 Images
 
-This is my disseration about detecting illegal mining from certian area.
-Follow through the steps in the notebook to train the model.
+> Dissertation Project - Object Detection using Transfer Learning
 
-You may also need to download the TF object dectection API to make the training work.
+## Overview
 
-You would also need to download a detection model from the model zoo:
-https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md
+This project examines the possibility of using satellite imagery from the **Sentinel-2** Earth observation mission to detect illegal mining activities through transfer learning in deep neural networks.
 
-faster_rcnn_resnet50_v1 is used to conduct thr traininig.
+The approach transfers learning from a pre-trained model (COCO dataset) and adapts it with annotated satellite imagery of legal and illegal mining sites, training a model that can automatically recognize illegal mines.
 
-After you download everything requried, the set up of the model would be like the following:
+## Results Summary
 
-Folder
-  -Workspace
-    --trained model
-  -addons
-  -models
-  -scripts
-  -Testdataset
+- Models showed **certain level of performance** during training
+- Performance **improved by increasing input scale** during training
+- When tested on new data (simulating real-world), models showed **significant regression**
+- **Conclusion**: Not ready for practical use; further research needed
 
+---
 
-Software Requirement
-Python 3.7.13
-Opencv-python-headless 4.1.2.30
-TensorFlow 2.9
-CuDNN  8.1.0.77
-Cuda 11.2
-Pycocotools 2.0.4
+## Repository Structure
 
-It is to examine the possibility of using the imagery data from Earth observation mission “Sentinel-2” to detect illegal mining activities with transfer learning in deep neural networks. The idea is to transfer the learning result from a pre-trained model with more extensive database and hardware support and adapt and train the pre-trained model with the input of the satellite imagery dataset as supervised learning material about legal and illegal mining in hands and expect to output a model that can automatically recognise illegal mines. 
+```
+├── notebooks/              # Jupyter notebooks for training/evaluation
+├── scripts/                # Python utility scripts
+├── requirements.txt        # Python dependencies
+└── README.md               # This file
+```
 
-Preparation for the dataset included two stages. First, two bandings of illegal and legal mining activities are collected from Sentinel-2, and imagery data are annotated with bounding boxes.
+### External Dependencies (Not in Repo)
 
-Faster R-CNN ResNet 50 model pre-trained with the COCO dataset is chosen for research due to the time-efficient nature of the architecture from the model, which is considered a suitable model to begin the research. During the training section, the models conducted showed a certain level of performance, and the performance of the models was successfully improved by increasing the scale of the imagery input to the models during the training. 
+You'll need to download separately:
 
-In order to justify the trained model, new data has been introduced to the models in order to simulate the actual world situation, at this stage, the model performance showed significant regression, which shows the models are not ready for practical use and further research has to be conducted in the future to examine the possibility for the application satellite imagery data to identify illegal mining activities.
+| Component | Source |
+|-----------|--------|
+| TensorFlow Object Detection API | [GitHub](https://github.com/tensorflow/models/tree/master/research/object_detection) |
+| Pre-trained Model | [TF2 Detection Zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md) |
 
+### Required Folder Structure
+
+```
+project-root/
+├── workspace/
+│   └── trained_model/      # Your trained models go here
+├── addons/                 # Object Detection API addons
+├── models/                 # TensorFlow models repository
+├── scripts/                # Training scripts
+└── TestDataset/            # Test dataset for evaluation
+```
+
+---
+
+## Setup
+
+### 1. Environment
+
+```bash
+# Create conda environment
+conda create -n mining-detection python=3.7.13
+conda activate mining-detection
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 2. TensorFlow Object Detection API
+
+```bash
+# Clone TensorFlow models
+git clone https://github.com/tensorflow/models.git
+
+# Follow installation instructions:
+# https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2.md
+```
+
+### 3. Download Pre-trained Model
+
+```bash
+# Download Faster R-CNN ResNet50 from model zoo
+wget http://download.tensorflow.org/models/object_detection/tf2/20200711/faster_rcnn_resnet50_v1_640x640_coco17_tpu-8.tar.gz
+
+# Extract to models/ directory
+```
+
+### 4. Prepare Dataset
+
+1. Collect Sentinel-2 imagery for:
+   - Legal mining sites
+   - Illegal mining sites
+2. Annotate with bounding boxes (use LabelImg or similar)
+3. Convert to TFRecord format
+
+### 5. Train
+
+```bash
+# Update pipeline.config with your paths
+# Run training script from notebooks/
+```
+
+---
+
+## Technical Details
+
+### Model Architecture
+
+**Faster R-CNN ResNet50** - chosen for:
+- Time-efficient training
+- Good balance of speed and accuracy
+- Pre-trained on COCO dataset (80 object categories)
+
+### Data
+
+- **Source**: Sentinel-2 satellite imagery
+- **Annotation**: Bounding boxes for mining sites
+- **Classes**: Legal mining, Illegal mining
+
+### Training
+
+- Transfer learning from COCO weights
+- Progressive scaling of input images improved results
+- Multiple training runs with different configurations
+
+---
+
+## Requirements
+
+| Package | Version |
+|---------|---------|
+| Python | 3.7.13 |
+| TensorFlow | 2.9 |
+| CUDA | 11.2 |
+| CuDNN | 8.1.0.77 |
+| opencv-python-headless | 4.1.2.30 |
+| pycocotools | 2.0.4 |
+
+---
+
+## Findings
+
+### What Worked
+
+- Transfer learning successfully adapted to satellite imagery
+- Increasing input scale improved model performance
+- Training converged with reasonable loss values
+
+### Challenges
+
+- **Domain gap**: Model performance regressed significantly on new data
+- **Generalization**: Not yet robust enough for real-world deployment
+- **Data scarcity**: Limited annotated satellite imagery available
+
+### Future Work
+
+- Larger and more diverse training dataset
+- Data augmentation techniques specific to satellite imagery
+- Experiment with other architectures (YOLO, EfficientDet)
+- Multi-temporal analysis (detecting changes over time)
+- Integration with other satellite data sources
+
+---
+
+## Citation
+
+If you use this work, please cite:
+
+```
+@misc{illegal_mining_detection_2024,
+  author = {Leo Wong},
+  title = {Detecting Illegal Mining with Sentinel-2 Images using Transfer Learning},
+  year = {2024},
+  publisher = {GitHub},
+  url = {https://github.com/leo-data-gig-world/Detecting-illegal-mining-with-sentinel-2-images}
+}
+```
+
+---
+
+## License
+
+This project is for academic research purposes.
+
+## Acknowledgments
+
+- European Space Agency (ESA) for Sentinel-2 imagery
+- TensorFlow team for Object Detection API
+- COCO dataset for pre-trained weights

@@ -1,0 +1,22 @@
+# Core
+python==3.7.13
+tensorflow==2.9.0
+opencv-python-headless==4.1.2.30
+pycocotools==2.0.4
+
+# Data Processing
+numpy
+pandas
+pillow
+matplotlib
+
+# Object Detection API dependencies
+lxml
+tqdm
+contextlib2
+cython
+protobuf>=3.9.2
+
+# Jupyter
+jupyter
+ipython
